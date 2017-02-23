@@ -35,3 +35,10 @@ self.addEventListener('fetch', event => {
 		})
 	);
 });
+
+self.addEventListener('message', event => {
+	if (event.data.action === 'skipWaiting') {
+		console.log('update success');
+		self.skipWaiting();
+	}
+});

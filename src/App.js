@@ -9,6 +9,8 @@ class App extends Component {
     this.state = {
       isUpdate: false
     }
+    this.worker = null;
+
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register(swURL).then(reg => {
         if (!navigator.serviceWorker.controller) return;
@@ -32,23 +34,39 @@ class App extends Component {
     }
   }
 
-  trackInstalling(worker) {
+  trackInstalling = (worker) => {
     worker.addEventListener('statechange', () => {
-      if (worker.state === 'installed') {
+      const { state } = worker;
+      if (state === 'installed') {
         this.updateReady(worker);
+      } else if (state === 'activated') {
+        this.setState({ isUpdate: false });
+        window.location.reload();
       }
     })
   }
 
-  updateReady = () => {
-    console.log('update!');
+  updateReady = (worker) => {
+    console.log('update find!');
+    this.worker = worker;
     this.setState({ isUpdate: true });
   }
 
-  renderUpdate = () => {
+
+  handleUpdate = () => {
+    if (this.worker)
+      this.worker.postMessage({ action: 'skipWaiting' });
+  }
+
+  renderUpdate = (worker) => {
     const { isUpdate } = this.state;
     if (!isUpdate) return;
-    return <p className='banner'>New Update</p> 
+    return (
+      <p className='banner'>
+        <span onClick={() => { this.setState({ isUpdate: false })}}>DISABLE</span>
+        <span onClick={() => this.handleUpdate(worker)}>UPDATE</span>
+      </p> 
+    )
   }
 
   render() {
