@@ -1,6 +1,8 @@
+const staticVersion = 'cp-static-v3';
+
 self.addEventListener('install', event => {
 	event.waitUntil(
-		caches.open('cp-static-v1').then(cache => {
+		caches.open(staticVersion).then(cache => {
 			return cache.addAll([
 				'/',
 				'/static/js/bundle.js',
@@ -9,6 +11,21 @@ self.addEventListener('install', event => {
 		})
 	);
 });
+
+self.addEventListener('activate', event => {
+	event.waitUntil(
+		caches.keys().then(cacheNames => {
+			return Promise.all(
+				cacheNames.filter(cacheName => {
+					return cacheName.startsWith('cp-') && cacheName !== staticVersion
+				}).map(cacheName => {
+					console.log(`delete ${cacheName}!`);
+					return caches.delete(cacheName);
+				})
+			)
+		})
+	);
+})
 
 self.addEventListener('fetch', event => {
 	event.respondWith(
