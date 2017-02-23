@@ -69,6 +69,18 @@ class App extends Component {
     )
   }
 
+  handlePush() {
+    if (this.worker) {
+      const data = {
+        title: 'Notification',
+        body: 'this is message body',
+        icon: 'static/media/logo.5d5d9eef.svg',
+        tag: 'simple-push-example-tag'
+      };
+      this.worker.postMessage({ push: data });
+    }
+  }
+
   render() {
     return (
       <div className="App">
@@ -79,6 +91,7 @@ class App extends Component {
         <p className="App-intro">
           To1 get started, edit <code>src/App.js</code> and save to reload.
         </p>
+        <button onClick={this.handlePush}>Send Notification</button>
         { this.renderUpdate() }
       </div>
     );

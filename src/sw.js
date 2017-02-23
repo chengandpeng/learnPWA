@@ -1,4 +1,4 @@
-const staticVersion = 'cp-static-v5';
+const staticVersion = 'cp-static-v6';
 
 self.addEventListener('install', event => {
 	event.waitUntil(
@@ -26,6 +26,19 @@ self.addEventListener('activate', event => {
 		})
 	);
 })
+
+self.addEventListener('push', event => {
+	const title = 'Notification';
+	const body = 'This is a notication';
+	const icon = './logo.svg';
+	const tag = 'simple-push-example-tag';
+
+	event.waitUntil(
+		self.registration.showNotification(title, {
+			body, icon, tag
+		})
+	);
+});
 
 self.addEventListener('fetch', event => {
 	event.respondWith(
