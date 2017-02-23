@@ -1,5 +1,5 @@
 {
-  "short_name": "cp-pwa-test",
+  "short_name": "my-pwa-test",
   "name": "CP PWA Test",
   "icons": [
     {
@@ -9,5 +9,6 @@
     }
   ],
   "start_url": "./",
-  "display": "standalone"
+  "display": "standalone",
+  "theme_color": "red"
 }

@@ -6,8 +6,10 @@ import swURL from './sw';
 
 if ('serviceWorker' in navigator) {
 	navigator.serviceWorker.register(swURL).then(register => {
-		// console.log(register);
-	});
+		console.log('service worker register success');
+	}).catch(error => {
+		console.log('service worker register fail');
+	})
 }
 
 
