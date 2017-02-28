@@ -1,4 +1,4 @@
-const staticVersion = 'cp-static-v6';
+const staticVersion = 'cp-static-v8';
 
 self.addEventListener('install', event => {
 	event.waitUntil(
@@ -28,8 +28,8 @@ self.addEventListener('activate', event => {
 })
 
 self.addEventListener('push', event => {
-	const title = 'Notification';
-	const body = 'This is a notication';
+	const title = 'Push';
+	const body = 'This is a push';
 	const icon = './logo.svg';
 	const tag = 'simple-push-example-tag';
 

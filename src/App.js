@@ -10,6 +10,7 @@ class App extends Component {
       isUpdate: false
     }
     this.worker = null;
+    this.reg = null;
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register(swURL).then(reg => {
@@ -28,6 +29,8 @@ class App extends Component {
         reg.addEventListener('updatefound', () => {
           this.trackInstalling(reg.installing);
         });
+
+        this.reg = reg;
       }).catch(error => {
         console.log('service worker register fail');
       })
@@ -69,15 +72,21 @@ class App extends Component {
     )
   }
 
-  handlePush() {
-    if (this.worker) {
-      const data = {
-        title: 'Notification',
+  handlePush = () => {
+    console.log(this.reg);
+    if (this.reg) {
+      const title = 'This is a notification';
+      const options = {
         body: 'this is message body',
         icon: 'static/media/logo.5d5d9eef.svg',
-        tag: 'simple-push-example-tag'
+        tag: 'request',
+        actions: [
+          { action: 'yes', 'title': 'Yes' },
+          { action: 'no', 'title': 'No'}
+        ]
       };
-      this.worker.postMessage({ push: data });
+      console.log(this.reg);
+      this.reg.showNotification(title, options);
     }
   }
 
@@ -91,7 +100,7 @@ class App extends Component {
         <p className="App-intro">
           To1 get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <button onClick={this.handlePush}>Send Notification</button>
+        <button onClick={this.handlePush}>Show Notification</button>
         { this.renderUpdate() }
       </div>
     );
