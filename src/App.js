@@ -73,7 +73,6 @@ class App extends Component {
   }
 
   handlePush = () => {
-    console.log(this.reg);
     if (this.reg) {
       const title = 'This is a notification';
       const options = {
@@ -85,7 +84,6 @@ class App extends Component {
           { action: 'no', 'title': 'No'}
         ]
       };
-      console.log(this.reg);
       this.reg.showNotification(title, options);
     }
   }
