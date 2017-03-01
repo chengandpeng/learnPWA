@@ -1,4 +1,4 @@
-const staticVersion = 'cp-static-v8';
+const staticVersion = 'cp-static-v10';
 
 self.addEventListener('install', event => {
 	event.waitUntil(

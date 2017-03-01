@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Chat from './chat';
 import logo from './logo.svg';
 import './App.css';
 import swURL from './sw';
@@ -95,11 +96,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to React</h2>
         </div>
-        <p className="App-intro">
-          To1 get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <button onClick={this.handlePush}>Show Notification</button>
-        { this.renderUpdate() }
+        <Chat {...this.props} />
       </div>
     );
   }
