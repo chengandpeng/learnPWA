@@ -10,5 +10,6 @@
   ],
   "start_url": "./",
   "display": "standalone",
-  "theme_color": "red"
+  "theme_color": "red",
+  "gcm_sender_id": "103953800507"
 }

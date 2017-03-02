@@ -16,7 +16,7 @@ export default class Chat extends React.Component {
   	if (fb) {
   		fb.on('value', snapshot => {
   			const messages = snapshot.val();
-  			messages && this.setState({ messages});
+  			this.setState({ messages });
   		});
   	}
   }
@@ -33,13 +33,15 @@ export default class Chat extends React.Component {
  			return Object.keys(messages).map(key => {
  				const data = messages[key];
  				return (
- 					<p className='chat-message' key={data.time}>
+ 					<p className='chat-message' key={data.time+data.value}>
  						<span className='message-id'>{data.id}</span>
  						<span className='message-value'>{data.value}</span>
  						<span className='message-time'>{data.time}</span>
  					</p>
  				);
  			});
+ 		} else {
+ 			return <p> Loading... </p>
  		}
   }
 
@@ -54,6 +56,7 @@ export default class Chat extends React.Component {
   	updates[newKey] = { time, value, id };
   	fb.update(updates);
 		this.setState({ value: '' });
+		this.inputValue.focus();
   }
 
   scrollToBottom = () => {
@@ -69,6 +72,14 @@ export default class Chat extends React.Component {
   	this.setState({ id: e.target.value });
   }
 
+  handleRemove = () => {
+  	this.props.fb.remove();
+  }
+
+  handleKeyPress = (e) => {
+  	if (e.key === 'Enter') this.handleClick();
+  }
+
   render() {
   	const { id, value } = this.state;
     return (
@@ -76,8 +87,9 @@ export default class Chat extends React.Component {
       	<p>
       		<span>ID:</span>
       		<input className='input-id' value={id} onChange={this.handleChangeId} />
-      		<input value={value} onChange={this.handleChangeValue}/>
+      		<input value={value} onChange={this.handleChangeValue} onKeyPress={this.handleKeyPress} ref={ el => { this.inputValue = el; }}/>
       		<button disabled={ !(id && value) }  onClick={this.handleClick}>Send Message</button>
+      		<button onClick={this.handleRemove}>Clear All</button>
       	</p>
       	<div className='chat-messages' ref={(el) => { this.messagesContainer = el; }}>
 	      	{ this.renderMessages()}
