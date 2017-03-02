@@ -14,17 +14,6 @@ const config = {
 
 const fb = firebase.initializeApp(config).database().ref('items');
 
-const messaging = firebase.messaging();
-messaging.requestPermission()
-.then(() => {
-  console.log('Notification permission granted.');
-  // TODO(developer): Retrieve an Instance ID token for use with FCM.
-  // ...
-})
-.catch(err => {
-  console.log('Unable to get permission to notify.', err);
-});
-
 ReactDOM.render(
   <App fb={fb}/>,
   document.getElementById('root')

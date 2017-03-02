@@ -1,24 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { idbUtil } from './idbUtil';
+import moment from 'moment';
 
 export default class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-    	messages: '',
-    	value: '',
-    	id: ''
+      messages: '',
+      value: '',
+      id: ''
     }
   }
 
   componentWillMount() {
   	const { fb } = this.props;
-  	if (fb) {
-  		fb.on('value', snapshot => {
-  			const messages = snapshot.val();
-  			this.setState({ messages });
-  		});
-  	}
+  	fb && fb.on('value', snapshot => {
+			const messagesObj = snapshot.val();
+      const messages = messagesObj ? Object.values(messagesObj) : '';
+      // messages && messages.forEach(message => {
+      //   idbUtil.set(message);
+      // });
+			this.setState({ messages });
+		});
+
+    // idbUtil.getAll().then(messages => {
+    //   this.setState({ messages });
+    // });
   }
 
   componentDidUpdate(prevState) {
@@ -27,16 +35,21 @@ export default class Chat extends React.Component {
   	}
   }
 
+  putMessage(message) {
+    idbUtil.set(message).then(() => {
+      console.log('set idb success');
+    });
+  }
+
   renderMessages = () => {
  		const { messages } = this.state;
  		if (messages) {
- 			return Object.keys(messages).map(key => {
- 				const data = messages[key];
+ 			return messages.map(data => {
  				return (
- 					<p className='chat-message' key={data.time+data.value}>
+ 					<p className='chat-message' key={data.date}>
  						<span className='message-id'>{data.id}</span>
  						<span className='message-value'>{data.value}</span>
- 						<span className='message-time'>{data.time}</span>
+ 						<span className='message-time'>{moment(data.date).format('HH:mm:ss')}</span>
  					</p>
  				);
  			});
@@ -50,13 +63,13 @@ export default class Chat extends React.Component {
   	const { value, id } = this.state;
   	if (!value) return ;
   	const newKey = fb.push().key;
-  	const date = new Date();
-  	const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+  	const date = new Date().getTime();
   	let updates = {};
-  	updates[newKey] = { time, value, id };
+  	updates[newKey] = { value, id, date };
   	fb.update(updates);
 		this.setState({ value: '' });
 		this.inputValue.focus();
+    // this.putMessage({ value, id, date });
   }
 
   scrollToBottom = () => {
