@@ -53,10 +53,10 @@ class App extends Component {
   }
 
 
-  handleUpdate = () => {
-    if (this.worker)
-      this.worker.postMessage({ action: 'skipWaiting' });
-  }
+  // handleUpdate = () => {
+  //   if (this.worker)
+  //     this.worker.postMessage({ action: 'skipWaiting' });
+  // }
 
   renderUpdate = (worker) => {
     const { isUpdate } = this.state;
