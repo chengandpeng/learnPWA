@@ -27,18 +27,18 @@ self.addEventListener('activate', event => {
 	);
 })
 
-self.addEventListener('push', event => {
-	const title = 'Push';
-	const body = 'This is a push';
-	const icon = './logo.svg';
-	const tag = 'simple-push-example-tag';
+// self.addEventListener('push', event => {
+// 	const title = 'Push';
+// 	const body = 'This is a push';
+// 	const icon = './logo.svg';
+// 	const tag = 'simple-push-example-tag';
 
-	event.waitUntil(
-		self.registration.showNotification(title, {
-			body, icon, tag
-		})
-	);
-});
+// 	event.waitUntil(
+// 		self.registration.showNotification(title, {
+// 			body, icon, tag
+// 		})
+// 	);
+// });
 
 self.addEventListener('fetch', event => {
 	event.respondWith(

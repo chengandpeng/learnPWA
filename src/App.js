@@ -72,21 +72,21 @@ class App extends Component {
     )
   }
 
-  handlePush = () => {
-    if (this.reg) {
-      const title = 'This is a notification';
-      const options = {
-        body: 'this is message body',
-        icon: 'static/media/logo.5d5d9eef.svg',
-        tag: 'request',
-        actions: [
-          { action: 'yes', 'title': 'Yes' },
-          { action: 'no', 'title': 'No'}
-        ]
-      };
-      this.reg.showNotification(title, options);
-    }
-  }
+  // handlePush = () => {
+  //   if (this.reg) {
+  //     const title = 'This is a notification';
+  //     const options = {
+  //       body: 'this is message body',
+  //       icon: 'static/media/logo.5d5d9eef.svg',
+  //       tag: 'request',
+  //       actions: [
+  //         { action: 'yes', 'title': 'Yes' },
+  //         { action: 'no', 'title': 'No'}
+  //       ]
+  //     };
+  //     this.reg.showNotification(title, options);
+  //   }
+  // }
 
   render() {
     return (
